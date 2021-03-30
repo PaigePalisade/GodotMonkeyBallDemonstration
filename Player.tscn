@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Suzanne.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Player.gd" type="Script" id=2]
+
+[sub_resource type="SphereShape" id=1]
+
+[sub_resource type="SphereMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+albedo_color = Color( 1, 1, 1, 0.4 )
+roughness = 0.0
+refraction_enabled = true
+refraction_scale = 0.05
+refraction_texture_channel = 0
+
+[node name="Player" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Ball" type="RigidBody" parent="."]
+gravity_scale = 2.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Ball"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ball"]
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Ball"]
+transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0 )
+mesh = ExtResource( 1 )
+material/0 = null
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
+
+[node name="RayCast" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0, -1.2, 0 )
