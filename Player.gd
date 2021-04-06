@@ -6,9 +6,15 @@ export var mouse_sensitivity = 0.01
 export var max_speed = 10.0
 export var jump_force = 10.0
 var double_jump = true
+var spawn_point = Vector3()
+var coins = 0
+
+func add_coin():
+	coins += 1
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	spawn_point = $Ball.translation
 
 func _process(delta):
 	$Camera.rotation = Vector3(roty,rotx,0.0)
@@ -18,6 +24,7 @@ func _process(delta):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	if Input.is_mouse_button_pressed(1):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$Control/Label.text = "Coins: " + str(coins)
 	
 func _physics_process(delta):
 	var direction = Vector3()
@@ -40,10 +47,12 @@ func _physics_process(delta):
 		$Ball.add_central_force(Vector3($Ball.linear_velocity.x,0.0,$Ball.linear_velocity.z)*-10)
 	print(speed)
 	if Input.is_action_just_pressed("Jump") and ($RayCast.is_colliding() or double_jump):
-		$Ball.apply_central_impulse(Vector3(0,1,0)*jump_force)
+		$Ball.linear_velocity.y = jump_force
 		double_jump = false
 	if $RayCast.is_colliding():
 		double_jump = true
+	if $Ball.translation.y < -10:
+		$Ball.translation = spawn_point
 
 func _input(event):
 	if event is InputEventMouseMotion:

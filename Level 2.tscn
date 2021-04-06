@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://texture_01.png" type="Texture" id=1]
+[ext_resource path="res://addons/zylann.hterrain/hterrain_texture_set.gd" type="Script" id=2]
+[ext_resource path="res://Level2Terrain/data.hterrain" type="Resource" id=3]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=5]
+[ext_resource path="res://LevelTransition.tscn" type="PackedScene" id=6]
+
+[sub_resource type="ProceduralSky" id=1]
+sky_top_color = Color( 0.894118, 0.960784, 1, 1 )
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+ssao_enabled = true
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 2 )
+mode = 0
+textures = [ [ ExtResource( 1 ) ], [ null ] ]
+
+[node name="Node" type="Node"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="HTerrain" type="Spatial" parent="."]
+script = ExtResource( 5 )
+ambient_wind = 0.0
+lod_scale = 2.0
+map_scale = Vector3( 0.25, 0.25, 0.25 )
+_terrain_data = ExtResource( 3 )
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = SubResource( 3 )
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = false
+shader_params/u_tile_reduction = Plane( 0, 0, 0, 0 )
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81419, 2.55735, 48.1511 )
+
+[node name="LevelTransition" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 38.4308, 7.25036, 59.858 )
+scene = "res://StartScreen.tscn"
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.886511, -0.251589, 0.388332, 0, 0.839259, 0.543731, -0.462708, -0.482023, 0.744012, 0, 5.56395, 0 )
+shadow_enabled = true

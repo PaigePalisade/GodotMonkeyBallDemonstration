@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Suzanne.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
+[ext_resource path="res://Kenney Future.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -14,6 +15,12 @@ roughness = 0.0
 refraction_enabled = true
 refraction_scale = 0.05
 refraction_texture_channel = 0
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 2 )
@@ -38,4 +45,20 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
 
 [node name="RayCast" type="RayCast" parent="."]
 enabled = true
-cast_to = Vector3( 0, -1.2, 0 )
+cast_to = Vector3( 0, -1.4, 0 )
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Control"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 4 )
+text = "Coins: x"
+__meta__ = {
+"_edit_use_anchors_": false
+}
